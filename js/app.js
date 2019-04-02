@@ -1,3 +1,4 @@
+'use strick';
 //list of all the store
 var storeList =[];
 //array to hold all operation hours
@@ -20,6 +21,7 @@ var store2 = {
   avgPerCus: 1.2,
   customer: [],
   sales: [],
+  totalSale: 0,
 };
 //3rd store
 var store3 = {
@@ -29,6 +31,7 @@ var store3 = {
   avgPerCus: 3.7,
   customer: [],
   sales: [],
+  totalSale: 0,
 };
 //4th store
 var store4 = {
@@ -38,6 +41,7 @@ var store4 = {
   avgPerCus: 2.3,
   customer: [],
   sales: [],
+  totalSale: 0,
 };
 //5th store
 var store5 = {
@@ -49,7 +53,7 @@ var store5 = {
   sales: [],
   totalSale: 0,
 };
-//adding all the stores in the list 
+//adding all the stores in the list
 storeList.push(store1);
 storeList.push(store2);
 storeList.push(store3);
@@ -62,29 +66,28 @@ for(var i = 0 ; i < 5; i++){
 }
 //To populate the numbers of customers
 function popCustomer(store){
+  //Citation: line from MDN Math.random
   for(var i = 0 ; i <15; i++){
-    store.customer[i] = Math.floor(Math.random() * (store.max - store.min))+store.min;
+    store.customer[i] = Math.floor(Math.random() * (store.max - store.min+1))+store.min;
   }
 }
 //To populates the sales each hour and total sale at the end
 function popSales(store){
   for(var i = 0 ; i <15; i++){
-    store.sales[i] = store.customer[i]*store.avgPerCus;
+    store.sales[i] = Math.floor(store.customer[i]*store.avgPerCus);
     store.totalSale += store.sales[i];
   }
 }
 //To work with the DOM
 for(var index = 0 ; index <storeList.length ; index++){
-  var para = document.createElement('h1');
-  var node = document.createTextNode(storeList[index].location);
-  para.appendChild(node);
-  var element = document.getElementById('storeInfo');
-  element.appendChild(para);
+  var id = storeList[index].location;
+  var ulEL = document.getElementById(id);
   for(var j = 0 ; j <hourList.length; j++){
-    var olList = document.createElement('li');
-    var data = document.createTextNode(hourList[j]+storeList[index].sales[j]);
-    olList.appendChild(data);
-    document.getElementById('list').appendChild(olList);
+    var liEl = document.createElement('li');
+    liEl.textContent =hourList[j]+storeList[index].sales[j]+ ' cookies';
+    ulEL.appendChild(liEl);
   }
+  liEl.textContent='Total: ' + storeList[index].totalSale + ' cookies';
+  ulEL.appendChild(liEl);
 }
 
