@@ -11,48 +11,48 @@ var hourList =['6am: ','7am: ', '8am: ','9am: ','10am: ','11am: ','12pm:','1pm: 
 /*
 maxCusPerHr: max-customer/hour
 */
-function Store(location,minCusPerHr,maxCusPerHr,avgCusPerHr){
+function Store(location,minCusPerHr,maxCusPerHr,avgSalePerCus){
   this.location = location;
   this.minCusPerHr = minCusPerHr;
   this.maxCusPerHr = maxCusPerHr;
-  this.avgCusPerHr = avgCusPerHr;
+  this.avgSalePerCus = avgSalePerCus;
   this.salesArray = [];
   this.cusArray = [];
   this.totalSales = 0;
 }
-//creating 5 different objects based for 5 different location
-var store1 = new Store('1st and Pike',23,65,6.3);
-var store2 = new Store('SeaTac Airport',3,24,1.2);
-var store3 = new Store('Seattle Center',11,38,2.3);
-var store4 = new Store('Capitol Hill',20,38,2.3);
-var store5 = new Store('Alki',2,16,4.6);
+//creating 5 different objects based for 5 different location and storing them in a array
+storeList.push(new Store('1st and Pike',23,65,6.3));
+storeList.push(new Store('SeaTac Airport',3,24,1.2));
+storeList.push(new Store('Seattle Center',11,38,2.3));
+storeList.push(new Store('Capitol Hill',20,38,2.3));
+storeList.push(new Store('Alki',2,16,4.6));
 
-//adding all the stores in the list
-storeList.push(store1);
-storeList.push(store2);
-storeList.push(store3);
-storeList.push(store4);
-storeList.push(store5);
-
-//populating the each location stores
-function populateCustomerSales(){
+/*
+To populate Customers Per Hour and Sales Per hour
+in the each location's stores
+Calls popCustomer(), popSales()
+*/
+function populateCustomerAndSales(){
   for(var i = 0 ; i < storeList.length; i++){
     popCustomer(storeList[i]);
     popSales(storeList[i]);
   }
 }
-
-//To populate the numbers of customers
+/*
+To populate the numbers of customers/hour
+*/
 function popCustomer(store){
   //Citation: line from MDN Math.random
   for(var i = 0 ; i <15; i++){
     store.cusArray[i] = Math.floor(Math.random() * (store.maxCusPerHr - store.minCusPerHr+1))+store.minCusPerHr;
   }
 }
-//To populates the sales each hour and total sale at the end
+/*
+To populate the sales/hour and total Sales in each location
+*/
 function popSales(store){
   for(var i = 0 ; i <15; i++){
-    store.salesArray[i] = Math.floor(store.cusArray[i]*store.avgCusPerHr);
+    store.salesArray[i] = Math.ceil(store.cusArray[i]*store.avgSalePerCus);
     store.totalSales += store.salesArray[i];
   }
 }
@@ -75,7 +75,9 @@ function popSales(store){
 // store1.render = function(){
 //   this.avgCusPerHr = 0;
 // };
-//header row stand alone function
+/*
+//To populate the header row of the table
+*/
 function headerRow(){
   //create,content,append
   var trEl = document.createElement('tr');
@@ -93,7 +95,9 @@ function headerRow(){
   var table = document.getElementById('sales');
   table.appendChild(trEl);
 }
-//function to create row for each location with respective data
+/*
+//To populate the body of the table with each stores data
+*/
 function tableBody(store){
   //each location has its own row of data
   var trEl = document.createElement('tr');
@@ -112,23 +116,33 @@ function tableBody(store){
   var table = document.getElementById('sales');
   table.appendChild(trEl);
 }
-// function that calculates total for all location per hour
+/*
+ //Function that calculates total for all location per hour
+ */
 function totalPerHrEaLoc(trEl){
   //to store sum off all sales per hour
-  var sum;
+  var sum=0;
+  var totalSale = 0;
   var tdEl;
-  for(var i = 0 ; i < store1.salesArray.length;i++){
-    sum = store1.salesArray[i]+store2.salesArray[i]+store3.salesArray[i]+store4.salesArray[i]+store5.salesArray[i];
+  for(var i=0 ; i < 15;i++){
+    sum =0;
+    for(var j=0; j<storeList.length;j++ ){
+      sum += storeList[j].salesArray[i];
+    }
     tdEl = document.createElement('td');
     tdEl.textContent = sum;
     trEl.appendChild(tdEl);
   }//end of for loop
-  sum = store1.totalSales+store2.totalSales+store3.totalSales+store4.totalSales+store5.totalSales;
   tdEl = document.createElement('td');
-  tdEl.textContent = sum;
+  for(var index=0;index<storeList.length;index++){
+    totalSale+= storeList[index].totalSales;
+  }
+  tdEl.textContent = totalSale;
   trEl.appendChild(tdEl);
 }
-//generates the footer for the table
+/*
+//To populate the footer row of the table
+*/
 function footerRow(){
   var trEl = document.createElement('tr');
   var tdEl = document.createElement('td');
@@ -138,7 +152,9 @@ function footerRow(){
   var table = document.getElementById('sales');
   table.appendChild(trEl);
 }
-// To generate render for each location and calling render for each object
+/*
+//To generate render for each location and calling render for each object
+*/
 function renderAllLoc(storeList){
   for(var i = 0 ; i < storeList.length;i++){
     storeList[i].render = function(){
@@ -148,35 +164,27 @@ function renderAllLoc(storeList){
   }
 }
 
-/*
+/************************
 HW 3: Adding the submittable form
+*************************/
+
+/*
+ //Function that handles the submit event
 */
-//to present glitch of html
-// event.preventDefault();
-/****
- Function that handles the submit event
- */
 function handleDataSubmit(e){
   // prevents page reload on a 'submit' event
   e.preventDefault();
+  //previous table
   var parent = document.getElementById('sales');
   var location = e.target.loc.value.toLowerCase();
-  var stringLoc = e.target.loc.value;
-  var minC = 0;
-  var maxC =0;
-  var avgC = 0;
   if(locationList.includes(location)){
-    //updating
-    minC = parseInt(e.target.minCus.value);
-    maxC = parseInt(e.target.maxCus.value);
-    avgC = parseInt(e.target.avgCus.value);
+    //updating one of the current locations
     for(var i =0 ; i<storeList.length; i++){
-      // console.log(typeof(stringLoc));
-      // console.log(typeof(storeList[i].location));
-      if(storeList[i].location===stringLoc){
-        storeList[i].minCusPerHr = minC;
-        storeList[i].maxCusPerHr = maxC;
-        storeList[i].avgCusPerHr = avgC;
+      if(storeList[i].location===e.target.loc.value){
+        storeList[i].minCusPerHr = parseInt(e.target.minCus.value);
+        storeList[i].maxCusPerHr = parseInt(e.target.maxCus.value);
+        storeList[i].avgSalePerCus = parseInt(e.target.avgCus.value);
+        storeList[i].totalSales=0;
       }
     }
     //clear previous table
@@ -184,29 +192,36 @@ function handleDataSubmit(e){
     {
       parent.removeChild(parent.firstChild);
     }
+    //updating the table
+    e.target.loc.value =null;
+    e.target.minCus.value= null;
+    e.target.maxCus.value = null;
+    e.target.avgCus.value=null;
+
     renderAll();
   }
+  //if the location submitted is a new location
   else{
     locationList.push(location);
-    minC = parseInt(e.target.minCus.value);
-    maxC = parseInt(e.target.maxCus.value);
-    avgC = parseInt(e.target.avgCus.value);
-    // eslint-disable-next-line new-cap
-    var newLocation = new Store(e.target.loc.value,minC,maxC,avgC);
+    var newLocation = new Store(e.target.loc.value,parseInt(e.target.minCus.value),parseInt(e.target.maxCus.value),parseInt(e.target.avgCus.value));
     storeList.push(newLocation);
     //clear previous table
     while(parent.hasChildNodes())
     {
       parent.removeChild(parent.firstChild);
     }
+    e.target.loc.value =null;
+    e.target.minCus.value= null;
+    e.target.maxCus.value = null;
+    e.target.avgCus.value=null;
     renderAll();
   }
 }
 /*
-Function that render all the required functions
+//Function that render all the required functions
 */
 function renderAll(){
-  populateCustomerSales();
+  populateCustomerAndSales();
   //headerRow funtion to initiallize table header
   headerRow();
   renderAllLoc(storeList);
@@ -216,7 +231,6 @@ function renderAll(){
  Function that listen if submit button is clicked or not
  */
 formA.addEventListener('submit',handleDataSubmit);
-
 renderAll();
 
 
