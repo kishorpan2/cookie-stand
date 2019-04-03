@@ -29,6 +29,7 @@ storeList.push(store2);
 storeList.push(store3);
 storeList.push(store4);
 storeList.push(store5);
+
 //populating the each location stores
 for(var i = 0 ; i < 5; i++){
   popCustomer(storeList[i]);
@@ -61,9 +62,12 @@ function popSales(store){
 //   ulEL.appendChild(liEl);
 // }
 
-/*HW 2*/
+/*HW 2*****/
 //Creating table purely from JS
-
+//function to create each object with render functions
+// store1.render = function(){
+//   this.avgCusPerHr = 0;
+// };
 //header row stand alone function
 function headerRow(){
   //create,content,append
@@ -83,25 +87,23 @@ function headerRow(){
   table.appendChild(trEl);
 }
 //function to create row for each location with respective data
-function tableBody(){
-  for(var index = 0 ; index <storeList.length ; index++){
-    //each location has its own row of data
-    var trEl = document.createElement('tr');
-    var tdEl = document.createElement('td');
-    tdEl.textContent = storeList[index].location;
-    trEl.appendChild(tdEl);
-    for(var j = 0 ; j <storeList[index].salesArray.length;j++){
-      //populating each row of data
-      tdEl = document.createElement('td');
-      tdEl.textContent = storeList[index].salesArray[j];
-      trEl.appendChild(tdEl);
-    }
+function tableBody(store){
+  //each location has its own row of data
+  var trEl = document.createElement('tr');
+  var tdEl = document.createElement('td');
+  tdEl.textContent = store.location;
+  trEl.appendChild(tdEl);
+  for(var j = 0 ; j <store.salesArray.length;j++){
+    //populating each row of data
     tdEl = document.createElement('td');
-    tdEl.textContent = storeList[index].totalSales;
+    tdEl.textContent = store.salesArray[j];
     trEl.appendChild(tdEl);
-    var table = document.getElementById('sales');
-    table.appendChild(trEl);
   }
+  tdEl = document.createElement('td');
+  tdEl.textContent = store.totalSales;
+  trEl.appendChild(tdEl);
+  var table = document.getElementById('sales');
+  table.appendChild(trEl);
 }
 // function that calculates total for all location per hour
 function totalPerHrEaLoc(trEl){
@@ -129,11 +131,20 @@ function footerRow(){
   var table = document.getElementById('sales');
   table.appendChild(trEl);
 }
-
-//header1
+// To generate render for each location and calling render for each object
+function renderAllLoc(storeList){
+  for(var i = 0 ; i < storeList.length;i++){
+    storeList[i].render = function(){
+      tableBody(storeList[i]);
+    };
+    storeList[i].render();
+  }
+}
+//headerRow funtion to initiallize table header
 headerRow();
-tableBody();
+renderAllLoc(storeList);
 footerRow();
+
 
 
 
