@@ -1,27 +1,31 @@
 'use strick';
 //list of all the store
 var storeList =[];
+//HW3: getting data of form with id 'formA'
+var formA = document.getElementById('formA');
+//all location of stores in all lower case
+var locationList =['1st and pike','seatac airport','seattle center','capitol hill','alki'];
 //array to hold all operation hours
 var hourList =['6am: ','7am: ', '8am: ','9am: ','10am: ','11am: ','12pm:','1pm: ','2pm: ','3pm: ','4pm: ','5pm: ','6pm: ','7pm: ','8pm: '];
 // Constructor function
 /*
 maxCusPerHr: max-customer/hour
 */
-function Store(location,minCusPerHr,maxCusPerHr,avgCusPerHr,salesArray,cusArray,totalSales){
+function Store(location,minCusPerHr,maxCusPerHr,avgCusPerHr){
   this.location = location;
   this.minCusPerHr = minCusPerHr;
   this.maxCusPerHr = maxCusPerHr;
   this.avgCusPerHr = avgCusPerHr;
-  this.salesArray = salesArray;
-  this.cusArray = cusArray;
-  this.totalSales = totalSales;
+  this.salesArray = [];
+  this.cusArray = [];
+  this.totalSales = 0;
 }
 //creating 5 different objects based for 5 different location
-var store1 = new Store('1st and Pike',23,65,6.3,[],[],0);
-var store2 = new Store('SeaTac Airport',3,24,1.2,[],[],0);
-var store3 = new Store('Seattle Center',11,38,2.3,[],[],0);
-var store4 = new Store('Capitol Hill',20,38,2.3,[],[],0);
-var store5 = new Store('Alki',2,16,4.6,[],[],0);
+var store1 = new Store('1st and Pike',23,65,6.3);
+var store2 = new Store('SeaTac Airport',3,24,1.2);
+var store3 = new Store('Seattle Center',11,38,2.3);
+var store4 = new Store('Capitol Hill',20,38,2.3);
+var store5 = new Store('Alki',2,16,4.6);
 
 //adding all the stores in the list
 storeList.push(store1);
@@ -31,10 +35,13 @@ storeList.push(store4);
 storeList.push(store5);
 
 //populating the each location stores
-for(var i = 0 ; i < 5; i++){
-  popCustomer(storeList[i]);
-  popSales(storeList[i]);
+function populateCustomerSales(){
+  for(var i = 0 ; i < storeList.length; i++){
+    popCustomer(storeList[i]);
+    popSales(storeList[i]);
+  }
 }
+
 //To populate the numbers of customers
 function popCustomer(store){
   //Citation: line from MDN Math.random
@@ -140,10 +147,77 @@ function renderAllLoc(storeList){
     storeList[i].render();
   }
 }
-//headerRow funtion to initiallize table header
-headerRow();
-renderAllLoc(storeList);
-footerRow();
+
+/*
+HW 3: Adding the submittable form
+*/
+//to present glitch of html
+// event.preventDefault();
+/****
+ Function that handles the submit event
+ */
+function handleDataSubmit(e){
+  // prevents page reload on a 'submit' event
+  e.preventDefault();
+  var parent = document.getElementById('sales');
+  var location = e.target.loc.value.toLowerCase();
+  var stringLoc = e.target.loc.value;
+  var minC = 0;
+  var maxC =0;
+  var avgC = 0;
+  if(locationList.includes(location)){
+    //updating
+    minC = parseInt(e.target.minCus.value);
+    maxC = parseInt(e.target.maxCus.value);
+    avgC = parseInt(e.target.avgCus.value);
+    for(var i =0 ; i<storeList.length; i++){
+      // console.log(typeof(stringLoc));
+      // console.log(typeof(storeList[i].location));
+      if(storeList[i].location===stringLoc){
+        storeList[i].minCusPerHr = minC;
+        storeList[i].maxCusPerHr = maxC;
+        storeList[i].avgCusPerHr = avgC;
+      }
+    }
+    //clear previous table
+    while(parent.hasChildNodes())
+    {
+      parent.removeChild(parent.firstChild);
+    }
+    renderAll();
+  }
+  else{
+    locationList.push(location);
+    minC = parseInt(e.target.minCus.value);
+    maxC = parseInt(e.target.maxCus.value);
+    avgC = parseInt(e.target.avgCus.value);
+    // eslint-disable-next-line new-cap
+    var newLocation = new Store(e.target.loc.value,minC,maxC,avgC);
+    storeList.push(newLocation);
+    //clear previous table
+    while(parent.hasChildNodes())
+    {
+      parent.removeChild(parent.firstChild);
+    }
+    renderAll();
+  }
+}
+/*
+Function that render all the required functions
+*/
+function renderAll(){
+  populateCustomerSales();
+  //headerRow funtion to initiallize table header
+  headerRow();
+  renderAllLoc(storeList);
+  footerRow();
+}
+/****
+ Function that listen if submit button is clicked or not
+ */
+formA.addEventListener('submit',handleDataSubmit);
+
+renderAll();
 
 
 

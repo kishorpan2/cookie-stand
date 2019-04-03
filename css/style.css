@@ -83,6 +83,9 @@
         width:835px;
         border-radius: 80%;
       }
+      .homeSection2 p{
+        text-align: center;
+      }
       .homeSection3{
         font-family: Arial, Helvetica, sans-serif;
         color:yellow;
@@ -99,6 +102,9 @@
         width:835px;
         border-radius: 80%;
       }
+      .homeSection3 p{
+        text-align: center;
+      }
       /*
       *****Sales Tables
       Citation: w3schools: tables docs
@@ -108,6 +114,7 @@
         border-collapse: collapse;
         width: 100%;
         margin-top:30px;
+        font-size: 23px;
       }
       .customers td, #customers th {
         border: 1px solid #ddd;
@@ -125,6 +132,27 @@
         background-color: rgb(47, 70, 47);
         color: white;
       }
+      /*
+      Style of form
+      */
+      .form1{
+        border: solid 8px greenyellow;
+      }
+      .form1 fieldset{
+        font-family: 'Oswald', sans-serif;
+        color: rgb(22, 70, 68);
+        font-size: 26px;
+        border-radius: 455px;
+      }
+      .form1 button{
+        font-size:27px;
+        background:blue;
+        color:gainsboro;
+        border-radius: 50px; 
+      }
+
+    
+      
       
 
 

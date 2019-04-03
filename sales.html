@@ -10,6 +10,8 @@
     <meta name="author" content="Saurav Kadariya">
     <!-- External .css file -->
     <link rel='stylesheet' type='text/css' href='./css/style.css'>
+    <!--Google Font -->
+    <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
   </head>
   <!-- body sections -->
   <body>
@@ -24,6 +26,24 @@
         </div>
       </header>
       <main>
+        <h1>New Data</h1>
+        <div class='form1'>
+          <form id='formA'>
+            <fieldset>
+              <legend>Update Table</legend>
+                <label>Location: </label>
+                <input type='text' id='loc' required>
+                <label>Min Customer Per Hour</label>
+                <input type='text' id='minCus'>
+                <label>Max Customer Per Hour</label>
+                <input type='text' id='maxCus'>
+                <label>Average Cookie</label>
+                <input type='text' id='avgCus'>
+                <button type='submit'>Submit </button>
+            </fieldset>
+          </form>
+        </div>
+        <h1>Sales Table </h1>
         <table class='customers' id ='sales'>
         </table> 
         <!-- HW:1 <div id='1st and Pike'>
