@@ -18,6 +18,7 @@
       /* Style for the navigation section  */
       .navTop{
         border-bottom: 6px solid rgb(55, 52, 46);
+        margin-top:20px;
       }
       a
       {
@@ -36,6 +37,28 @@
         text-align: center;
         font: bold;
         color:lightseagreen;
+      }
+      main{
+        margin-left: 50px;
+        margin-right: 50px;
+      }
+      header{
+        top:0;
+        background:lightcyan;
+        height: 250px;
+        text-align: center;
+        padding: 18px;
+        width: 100%;
+      }
+      header img{
+        display: inline-block;
+        margin-left:auto;
+        margin-right:auto;
+        height: 250px;
+        width: 600px;
+      }
+      footer{
+        margin-top:200px;
       }
       .foot{
         background:silver;
@@ -60,12 +83,15 @@
         height: 550px;
         font-family: 'Oswald', sans-serif;
         color: aliceblue;
-        font-size: 22px;
+        font-size: 27px;
+      }
+      .homeSection1 p{
+        text-align: center;
       }
       .homeSection1 img{
         height: 120px;
         width: 220px;
-        margin: 30px;
+        margin: 53px;
       }
       .homeSection2{
         font-family: 'Times New Roman', Times, serif;
@@ -80,17 +106,18 @@
         margin-left: auto;
         margin-right: auto;
         height: 80%;
-        width:835px;
+        width:635px;
         border-radius: 80%;
       }
       .homeSection2 p{
         text-align: center;
       }
       .homeSection3{
+        
         font-family: Arial, Helvetica, sans-serif;
         color:yellow;
         font-size:32px;
-        margin-top: 20px;
+        margin-top: 80px;
         width:100%;
         height: 520px;
       }
@@ -99,12 +126,39 @@
         margin-left: auto;
         margin-right: auto;
         height: 80%;
-        width:835px;
+        width:635px;
         border-radius: 80%;
       }
       .homeSection3 p{
         text-align: center;
       }
+      .homeSection4{
+        margin-top:70px;
+        height: 550px;
+        text-align: center;
+        font-family: 'Oswald', sans-serif;
+      }
+      .homeSection4 p{
+        color: aliceblue;
+        font-size: 32px;
+      }
+      .homeSection4 col{
+        width: 50%;
+      }
+      .homeSection4 img{
+        height: 450px;
+        float: left;
+        width: 500px;
+        border-radius: 40px;
+      }
+      .homeSection4 .col:nth-child(3) img{
+        margin-left: 290px;
+      }
+      .homeSection4::after{
+        display: table;
+        clear:both;
+      }
+      
       /*
       *****Sales Tables
       Citation: w3schools: tables docs
@@ -121,7 +175,8 @@
         padding: 8px;
       }
       
-      .customers tr:nth-child(even){background-color: #f2f2f2;}
+      .customers tr:nth-child(even){
+       background-color: #f2f2f2;}
       
       .customers tr:hover {background-color: #ddd;}
       
@@ -149,6 +204,29 @@
         background:blue;
         color:gainsboro;
         border-radius: 50px; 
+      }
+      .salesSection1{
+        margin-top: 20px;
+        width:100%;
+        height: 150px;
+        font-family: 'Oswald', sans-serif;
+        color: aliceblue;
+        font-size: 22px;
+      }
+      .salesSection1 img{
+        height: 120px;
+        width: 220px;
+        margin: 53px;
+      }
+      .form1 input[type='text']{
+        border-radius:50px;
+        border: solid 2px cadetblue;
+        height: 18px;
+      }
+      .form1 input[type='number']{
+        border-radius: 50px;
+        border: solid 2px cadetblue;
+        height: 18px;
       }
 
     
